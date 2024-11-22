@@ -1,27 +1,25 @@
-from typing import Union
-
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 app = FastAPI()
 
-
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None] = None
-
+img_list: list[str] = ['https://assets.pureglobal.cn/builder/demo-file/1.png','https://assets.pureglobal.cn/builder/demo-file/2.png','https://assets.pureglobal.cn/builder/demo-file/9.png']
+pdf_list: list[str] = ['https://assets.pureglobal.cn/builder/demo-file/Res.No_.152%20Regulacion%20E%20100-21%20red%20(1).pdf']
+word_list: list[str] = ['https://assets.pureglobal.cn/builder/demo-file/PROYECTO%20DE%20REGISTRO.docx','https://assets.pureglobal.cn/builder/demo-file/demo.docx']
 
 @app.get("/")
-def read_root():
+async def read_root():
+    res = combine_pdf()
+
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+async def combine_pdf():
+    convert_img_to_pdf('https://assets.pureglobal.cn/builder/demo-file/1.png')
+    convert_word_to_pdf()
+    pass
 
+async def convert_img_to_pdf(img_url: str):
+    pass
 
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+async def convert_word_to_pdf():
+    pass
